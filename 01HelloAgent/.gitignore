@@ -4,8 +4,8 @@ npm-debug.log*
 
 
 # Lock files (optional - uncomment if you want to include them)
- package-lock.json
- package.json
+package-lock.json
+package.json
 
 
 # Environment variables
