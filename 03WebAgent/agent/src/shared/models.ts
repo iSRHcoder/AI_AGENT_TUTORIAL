@@ -12,34 +12,35 @@ type ModelOpts = {
   maxTokens?: number;
 };
 
-export const getChatModel = (opts:ModelOpts={}):BaseChatModel{
-    const temp = opts?.temperature ?? 0.2;
+export const getChatModel = (
+  opts: ModelOpts = {},
+): BaseChatModel | undefined => {
+  const temp = opts?.temperature ?? 0.2;
 
-    switch(env.MODEL_PROVIDER){
-        case 'gemini':
-            return new ChatGoogleGenerativeAI({
-                apiKey:env.GOOGLE_API_KEY,
-                model:env.GEMINI_MODEL,
-                temperature : temp
-            })
+  switch (env.MODEL_PROVIDER) {
+    case "gemini":
+      return new ChatGoogleGenerativeAI({
+        apiKey: env.GOOGLE_API_KEY,
+        model: env.GEMINI_MODEL,
+        temperature: temp,
+      });
 
-        case 'groq':
+    case "groq":
+      return new ChatGroq({
+        apiKey: env.GROQ_API_KEY,
+        model: env.GROQ_MODEL,
+        temperature: temp,
+      });
 
-            return new ChatGroq({
-                apiKey:env.GROQ_API_KEY,
-                model:env.GROQ_MODEL,
-                temperature:temp
-            })
+    case "openai":
+      return new ChatOpenAI({
+        apiKey: env.OPENAI_API_KEY,
+        model: env.OPENAI_MODEL,
+        temperature: temp,
+      });
 
-            case 'openai':
-
-            return new ChatOpenAI({
-                apiKey:env.OPENAI_API_KEY,
-                model:env.OPENAI_MODEL,
-                temperature:temp
-            })
-
-            default:
-                break;
-    }
-}
+    default:
+      throw new Error(`Unsupported model provider: ${env.MODEL_PROVIDER}`);
+      break;
+  }
+};
