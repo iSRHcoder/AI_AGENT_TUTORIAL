@@ -1,16 +1,14 @@
 import { createChatModel } from "./lc-model";
 import { AskResult, AskResultSchema } from "./schema";
 
-export async function askStructured(query: string): Promise<AskResult> {
+export const askStructured = async (query: string): Promise<AskResult> => {
   const { model } = createChatModel();
-
-  // keep instructions brief so that schema stays visible to the model
 
   const system = "You are a concise assistant. Return only the requested JSON.";
   const user =
     `Summarize for a beginner:\n` +
     `"${query}"\n` +
-    `Return fields: summary (short paragraph), confidence (0..1)`;
+    `Return fields : summary (short paragraph), confidence(0..1)`;
 
   const structured = model.withStructuredOutput(AskResultSchema);
 
@@ -24,6 +22,5 @@ export async function askStructured(query: string): Promise<AskResult> {
       content: user,
     },
   ]);
-
   return result;
-}
+};

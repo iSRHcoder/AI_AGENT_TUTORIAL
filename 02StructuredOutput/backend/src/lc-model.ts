@@ -5,7 +5,7 @@ import { ChatGroq } from "@langchain/groq";
 
 export type Provider = "openai" | "gemini" | "groq";
 
-export function createChatModel(): { provider: Provider; model: any } {
+export const createChatModel = (): { provider: Provider; model: any } => {
   loadEnv();
 
   const forced = (process.env.PROVIDER || "").toLowerCase();
@@ -30,7 +30,7 @@ export function createChatModel(): { provider: Provider; model: any } {
       provider: "gemini",
       model: new ChatGoogleGenerativeAI({
         ...base,
-        model: "gemini-2.0-flash-lite",
+        model: "gemini-2.5-flash-lite",
       }),
     };
   }
@@ -49,7 +49,7 @@ export function createChatModel(): { provider: Provider; model: any } {
     provider: "gemini",
     model: new ChatGoogleGenerativeAI({
       ...base,
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash-lite",
     }),
   };
-}
+};
